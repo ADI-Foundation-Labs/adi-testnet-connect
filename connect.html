@@ -22,21 +22,21 @@
               blockExplorerUrls: ['https://explorer.ab.testnet.adifoundation.ai/']
             }]
           });
-          closeIfPossible();
         } catch (err) {
           console.error('Auto add failed', err);
         }
+        goBackToDocs();
       }
 
-      function closeIfPossible() {
-        // Works if the tab was opened by script; otherwise, best-effort notify parent iframe.
-        if (window.top !== window.self) {
-          try {
-            window.parent.postMessage({ type: 'adi:add-network:done' }, '*');
-          } catch (_) {}
+      function goBackToDocs() {
+        // Prefer history back if available, otherwise fall back to referrer.
+        if (window.history.length > 1) {
+          window.history.back();
           return;
         }
-        window.close();
+        if (document.referrer) {
+          window.location.replace(document.referrer);
+        }
       }
 
       window.onload = addAdiTestnet;
