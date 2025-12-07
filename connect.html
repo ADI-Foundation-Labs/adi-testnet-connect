@@ -24,18 +24,22 @@
           });
         } catch (err) {
           console.error('Auto add failed', err);
+        } finally {
+          goBackToDocs();
         }
-        goBackToDocs();
       }
 
       function goBackToDocs() {
-        // Prefer history back if available, otherwise fall back to referrer.
+        const params = new URLSearchParams(window.location.search);
+        const explicitReturn = params.get('return');
+        const fallback = document.referrer || 'https://docs.adifoundation.ai/';
+        const target = explicitReturn || fallback;
+
+        // Prefer history back if it exists; otherwise replace to avoid extra tab history.
         if (window.history.length > 1) {
           window.history.back();
-          return;
-        }
-        if (document.referrer) {
-          window.location.replace(document.referrer);
+        } else {
+          window.location.replace(target);
         }
       }
 
