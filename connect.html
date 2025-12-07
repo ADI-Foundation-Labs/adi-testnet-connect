@@ -32,7 +32,7 @@
       function goBackToDocs() {
         const params = new URLSearchParams(window.location.search);
         const explicitReturn = params.get('return');
-        const fallback = document.referrer || 'https://docs.adifoundation.ai/';
+        const fallback = document.referrer || 'https://docs.adi.foundation/';
         const target = explicitReturn || fallback;
 
         // Prefer history back if it exists; otherwise replace to avoid extra tab history.
